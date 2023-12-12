@@ -14,7 +14,6 @@ android {
         targetSdkVersion project.compileSdkVersion
 
         testInstrumentationRunner "com.epam.reportportal.android.junit5.AndroidJUnit5ReportPortalRunner"
-
     }
 
     buildTypes {
@@ -23,25 +22,35 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
     }
+
     packagingOptions {
         exclude 'META-INF/LICENSE*'
         exclude 'META-INF/INDEX.LIST'
     }
+
     testOptions {
-        animationsDisabled=true
-        
-        testLogging {
-            showStandardStreams = true
+        animationsDisabled = true
+
+        unitTests {
+            // Configure logging for unit tests
+            testLogging {
+                showStandardStreams = true
+                // You can customize other logging options here if needed
+            }
         }
+
     }
 }
+
 
 dependencies {
     implementation project(':app') // your application project
