@@ -40,16 +40,16 @@ android {
     testOptions {
         animationsDisabled = true
 
-        unitTests {
-            // Configure logging for unit tests
+        unitTests.all {
+            // Configure logging for both unit tests and Android instrumented tests
             testLogging {
                 showStandardStreams = true
                 // You can customize other logging options here if needed
             }
         }
-
     }
 }
+
 
 
 dependencies {
