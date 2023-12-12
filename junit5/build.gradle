@@ -36,6 +36,10 @@ android {
     }
     testOptions {
         animationsDisabled=true
+        
+        testLogging {
+            showStandardStreams = true
+        }
     }
 }
 
