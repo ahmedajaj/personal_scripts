@@ -20,7 +20,7 @@ android {
     signingConfigs {
         release {
             keyAlias 'android'
-            keyPassword 'qwerty12345'
+            storePassword 'qwerty12345'
             storeFile file('/bitrise/keystore/android.jks')
         }
     }
