@@ -1,7 +1,10 @@
-- 👋 Hi, I’m @ahmedajaj
-- 👀 I’m interested in DevOps
+# android-java-example
 
-<!---
-ahmedajaj/ahmedajaj is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
+Android tests created using Java and JUnit 5. To run tests from command-line execute:
+
+```sh
+gradlew junit5:connectedAndroidTest
+```
+
+**For comprehensive integration manual please refer to the main android agent
+project:** https://github.com/reportportal/agent-android

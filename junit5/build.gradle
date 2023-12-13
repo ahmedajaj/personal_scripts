@@ -1,19 +1,20 @@
 plugins {
     id 'com.android.test'
-    id 'kotlin-android'
 }
 
 android {
+    targetProjectPath ':app'
+
     compileSdkVersion = rootProject.compileSdkVersion.toInteger()
     buildToolsVersion = rootProject.buildToolsVersion
-
-    targetProjectPath ':app'
 
     defaultConfig {
         minSdkVersion 26
         targetSdkVersion project.compileSdkVersion
 
         testInstrumentationRunner "com.epam.reportportal.android.junit5.AndroidJUnit5ReportPortalRunner"
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -28,35 +29,27 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
+    testOptions {
+        animationsDisabled=true
     }
 
     packagingOptions {
-        exclude 'META-INF/LICENSE*'
+        exclude "META-INF/LICENSE*"
         exclude 'META-INF/INDEX.LIST'
-    }
-
-    testOptions {
-        animationsDisabled = true
-
-        unitTests.all {
-            // Configure logging for both unit tests and Android instrumented tests
-            testLogging {
-                showStandardStreams = true
-                // You can customize other logging options here if needed
-            }
-        }
     }
 }
 
-
-
 dependencies {
-    implementation project(':app') // your application project
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
 
-    // Standard android libraries
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation project(':app')
 
     // Android libraries for testing Activities
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -70,7 +63,7 @@ dependencies {
         exclude group: 'org.aspectj' // AspectJ is already included by Android
     }
     implementation ('com.epam.reportportal:logger-java-logback:5.1.4') {
-        exclude group: 'com.epam.reportportal' // Already included by the agent dependency
+        exclude group: 'com.epam.reportportal'
     }
 
     // Logging support, newer versions of logback do not support Android
