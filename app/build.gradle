@@ -17,8 +17,17 @@ android {
         multiDexEnabled true
     }
 
+    signingConfigs {
+        release {
+            keyAlias 'android'
+            keyPassword 'qwerty12345'
+            storeFile file('/bitrise/keystore/android.jks')
+        }
+    }
+
     buildTypes {
         release {
+            signingConfigs signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
