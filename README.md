@@ -1,18 +1,11 @@
-# Integration example Cucumber + JUnit + Selenium WebDriver + Logback + Maven
+## Example for [@reportportal/agent-js-jest](https://www.npmjs.com/package/@reportportal/agent-js-jest)
 
-This example will show you how to report logger messages and results of WebDriver tests (including screenshots).
+## Run test example:
+Inside of jest.config.js you need to insert data about your instance of the ReportPortal.
 
-Download this example with:
+To run the tests, type the following commands in the console:
 
+```cmd
+npm install
+npm run test
 ```
-git clone https://github.com/reportportal/example-cucumber-junit-selenium-logback-maven.git
-```
-
-1. Fill up reportportal.properties file using properties from your RP profile page
-2. Navigate to the folder with `pom.xml`
-3. Execute `mvn clean test` command in console
-
-Detailed documentation available here:
-  - https://github.com/reportportal/agent-java-cucumber
-  - https://github.com/reportportal/agent-java-junit
-  - http://reportportal.io/docs/Logging-Integration%3Elogback
