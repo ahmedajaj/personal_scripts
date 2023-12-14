@@ -44,8 +44,8 @@
         </dependency>
         <dependency>
             <groupId>com.epam.reportportal</groupId>
-            <artifactId>agent-java-cucumber4</artifactId>
-            <version>4.1.0</version>
+            <artifactId>agent-java-cucumber</artifactId>
+            <version>5.1.4</version>
             <scope>test</scope>
         </dependency>
         <!-- for cucumber -->
@@ -58,8 +58,9 @@
         </dependency>
         <dependency>
             <groupId>com.epam.reportportal</groupId>
-            <artifactId>logger-java-logback</artifactId>
-            <version>4.0.0</version>
+            <artifactId>logger-java-log4j</artifactId>
+            <version>5.1.6</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
