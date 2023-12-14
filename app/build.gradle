@@ -17,14 +17,14 @@ android {
         multiDexEnabled true
     }
 
-    signingConfigs {
-        release {
-            keyAlias 'android'
-            keyPassword 'qwerty12345'
-            storePassword 'qwerty12345'
-            storeFile file('/bitrise/keystore/android.jks')
-        }
-    }
+   signingConfigs {
+       release {
+         keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
+         keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
+         storeFile file(System.getenv("HOME") + "/keystores/android.jks")
+         storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
+       }
+   }
 
     buildTypes {
         release {
