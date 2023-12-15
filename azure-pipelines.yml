@@ -12,5 +12,7 @@ pool:
 steps:
 - script: |
     npm install
-    npm run test
+    npm run test | tee ./console.log
+    sed -nE 's/.*ReportPortal Launch Link: .*\/([0-9]+).*/export RP_LAUNCH_ID=\1/p' console.log > launch.env
+    cat launch.env
   displayName: 'Run build'
