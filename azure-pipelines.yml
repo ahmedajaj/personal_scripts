@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - js
 
@@ -16,21 +11,14 @@ steps:
     LAUNCH_ID=$(sed -nE 's/.*ReportPortal Launch Link: .*\/([0-9]+).*/\1/p' console.log)
     echo $LAUNCH_ID
     echo "##vso[task.setvariable variable=RP_LAUNCH_ID;]$LAUNCH_ID"
-    echo "##vso[task.setvariable variable=TEST;]TESTVALUE"
-    echo $(TEST)
-    echo $RP_LAUNCH_ID
-    echo $(RP_LAUNCH_ID)
   displayName: 'Run build'
 
 - script: |
     QUALITY_GATE_STATUS=""
     START_TIME=$(date +%s)
-    echo $(TEST)
-    echo $RP_LAUNCH_ID
-    echo $(RP_LAUNCH_ID)
     # Loop until quality gate status is obtained or timeout is reached
     while [[ -z "$QUALITY_GATE_STATUS" && $(( $(date +%s) - START_TIME )) -lt $(SCRIPT_TIMEOUT_SECONDS) ]]; do
-      printf "Waiting for quality gate status...\n"
+      printf "Launch ID $(LAUNCH_ID). Waiting for quality gate status....\n"
       sleep 10
       
       # Retrieve quality gate status using curl and jq
