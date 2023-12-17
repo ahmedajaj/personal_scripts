@@ -9,8 +9,11 @@ jobs:
       - run:
           name: "Build and test"
           command: |
+            set +o pipefail
             npm install
             npm run test | tee ./console.log
+            LAUNCH_ID=$(sed -nE 's/.*ReportPortal Launch Link: .*\/([0-9]+).*/\1/p' console.log)
+            echo $LAUNCH_ID
       - run:
           name: "Quality gates"
           command: |
