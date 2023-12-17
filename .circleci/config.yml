@@ -10,7 +10,7 @@ jobs:
           name: "Build and test"
           command: |
             npm install
-            npm run test
+            npm run test | tee ./console.log
             LAUNCH_ID=$(sed -nE 's/.*ReportPortal Launch Link: .*\/([0-9]+).*/\1/p' console.log)
             echo $LAUNCH_ID
       - run:
