@@ -22,7 +22,7 @@ jobs:
             REQUEST_TIMEOUT_SECONDS: "60"
             SCRIPT_TIMEOUT_SECONDS: "60"
           command: |
-            wget -Oq jq https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux64
+            wget -q -O jq https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux64
             chmod +x ./jq
             cp jq /usr/bin
             QUALITY_GATE_STATUS=""
