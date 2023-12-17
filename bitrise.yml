@@ -2,26 +2,7 @@ format_version: "13"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: other
 workflows:
-  cucmber:
-    steps:
-    - activate-ssh-key@4:
-        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@8: {}
-    - script@1:
-        title: Run Junit tests
-        inputs:
-        - content: |-
-            npm install
-            npm run test | tee ./console.log
-
-            sed -nE 's/.*ReportPortal Launch Link: .*\/([0-9]+).*/export RP_LAUNCH_ID=\1/p' console.log > launch.env
-
-            cat launch.env
-    - script@1:
-        inputs:
-        - content: "#!/usr/bin/env bash\n\n# Fail the pipeline in case of errors\nset -o pipefail\n\n# Get $RP_LAUNCH_ID from launch.env\nsource launch.env\n\nQUALITY_GATE_STATUS=\"\"\nSTART_TIME=$(date +%s)\n\n# Loop until quality gate status is obtained or timeout is reached\nwhile [[ -z \"$QUALITY_GATE_STATUS\" && $(( $(date +%s) - START_TIME )) -lt $SCRIPT_TIMEOUT_SECONDS ]]; do\n  printf \"Waiting for quality gate status...\\n\"\n  sleep 10\n  \n  # Retrieve quality gate status using curl and jq\n  QUALITY_GATE_STATUS=$(curl -s --retry 3 --max-time \"$REQUEST_TIMEOUT_SECONDS\" -H \"Authorization: Bearer $RP_API_KEY\" \"$RP_INSTANCE_URL/api/v1/$RP_PROJECT/launch/$RP_LAUNCH_ID\" | jq -r '.metadata.qualityGate.status // empty')\ndone\n\n# Check quality gate status and take appropriate action\nif [[ \"$QUALITY_GATE_STATUS\" != \"PASSED\" ]]; then\n  printf \"Quality gate status: %s\\nFailing the pipeline.\\n\" \"$QUALITY_GATE_STATUS\"\n  exit 1\nelse\n  printf \"Quality gate status: %s\\nPipeline passed.\\n\" \"$QUALITY_GATE_STATUS\"\nfi\n"
-        title: Quality gate
-  primary:
+  android:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
@@ -86,15 +67,34 @@ workflows:
 
             ls -la /bitrise/keystore
     - deploy-to-bitrise-io@2: {}
+  javascript:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@8: {}
+    - script@1:
+        title: Run Junit tests
+        inputs:
+        - content: |-
+            npm install
+            npm run test | tee ./console.log
+
+            sed -nE 's/.*ReportPortal Launch Link: .*\/([0-9]+).*/export RP_LAUNCH_ID=\1/p' console.log > launch.env
+
+            cat launch.env
+    - script@1:
+        inputs:
+        - content: "#!/usr/bin/env bash\n\n# Fail the pipeline in case of errors\nset -o pipefail\n\n# Get $RP_LAUNCH_ID from launch.env\nsource launch.env\n\nQUALITY_GATE_STATUS=\"\"\nSTART_TIME=$(date +%s)\n\n# Loop until quality gate status is obtained or timeout is reached\nwhile [[ -z \"$QUALITY_GATE_STATUS\" && $(( $(date +%s) - START_TIME )) -lt $SCRIPT_TIMEOUT_SECONDS ]]; do\n  printf \"Waiting for quality gate status...\\n\"\n  sleep 10\n  \n  # Retrieve quality gate status using curl and jq\n  QUALITY_GATE_STATUS=$(curl -s --retry 3 --max-time \"$REQUEST_TIMEOUT_SECONDS\" -H \"Authorization: Bearer $RP_API_KEY\" \"$RP_INSTANCE_URL/api/v1/$RP_PROJECT/launch/$RP_LAUNCH_ID\" | jq -r '.metadata.qualityGate.status // empty')\ndone\n\n# Check quality gate status and take appropriate action\nif [[ \"$QUALITY_GATE_STATUS\" != \"PASSED\" ]]; then\n  printf \"Quality gate status: %s\\nFailing the pipeline.\\n\" \"$QUALITY_GATE_STATUS\"\n  exit 1\nelse\n  printf \"Quality gate status: %s\\nPipeline passed.\\n\" \"$QUALITY_GATE_STATUS\"\nfi\n"
+        title: Quality gate
 meta:
   bitrise.io:
     stack: linux-docker-android-20.04
     machine_type_id: standard
 trigger_map:
 - push_branch: main
-  workflow: primary
+  workflow: android
 - pull_request_source_branch: '*'
-  workflow: primary
+  workflow: android
 app:
   envs:
   - opts:
