@@ -16,6 +16,11 @@ jobs:
             echo $LAUNCH_ID
       - run:
           name: "Quality gates"
+          environment:
+            RP_INSTANCE_URL: https://reportportal.epam.com
+            RP_PROJECT: AHMED_AZHAZH_PERSONAL
+            REQUEST_TIMEOUT_SECONDS: "60"
+            SCRIPT_TIMEOUT_SECONDS: "60"
           command: |
             QUALITY_GATE_STATUS=""
             START_TIME=$(date +%s)
