@@ -22,7 +22,7 @@ jobs:
             REQUEST_TIMEOUT_SECONDS: "60"
             SCRIPT_TIMEOUT_SECONDS: "60"
           command: |
-            apt install jq -y
+            apk add jq
             QUALITY_GATE_STATUS=""
             START_TIME=$(date +%s)
             # Loop until quality gate status is obtained or timeout is reached
