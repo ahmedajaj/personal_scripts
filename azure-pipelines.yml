@@ -25,7 +25,9 @@ steps:
 - script: |
     QUALITY_GATE_STATUS=""
     START_TIME=$(date +%s)
-
+    echo $(TEST)
+    echo $RP_LAUNCH_ID
+    echo $(RP_LAUNCH_ID)
     # Loop until quality gate status is obtained or timeout is reached
     while [[ -z "$QUALITY_GATE_STATUS" && $(( $(date +%s) - START_TIME )) -lt $(SCRIPT_TIMEOUT_SECONDS) ]]; do
       printf "Waiting for quality gate status...\n"
