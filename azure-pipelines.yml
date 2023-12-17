@@ -16,6 +16,8 @@ steps:
     LAUNCH_ID=$(sed -nE 's/.*ReportPortal Launch Link: .*\/([0-9]+).*/\1/p' console.log)
     echo $LAUNCH_ID
     echo "##vso[task.setvariable variable=RP_LAUNCH_ID;]$LAUNCH_ID"
+    echo "##vso[task.setvariable variable=TEST;]TESTVALUE"
+    echo $(TEST)
     echo $RP_LAUNCH_ID
     echo $(RP_LAUNCH_ID)
   displayName: 'Run build'
