@@ -11,7 +11,7 @@ steps:
     npm install
       
     # Run npm run test and save the output to console.log
-    npm run test | Tee-Object -FilePath ./console.log
+    npm run test 2>&1 | Tee-Object -FilePath ./console.log
       
     # Use Select-String to extract the Launch ID from console.log using a regex
     $LAUNCH_ID = (Get-Content -Path ./console.log | Select-String -Pattern '.*ReportPortal Launch Link: .*\/([0-9]+).*' | ForEach-Object { $_.Matches.Groups[1].Value })
