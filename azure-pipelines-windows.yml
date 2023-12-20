@@ -6,6 +6,7 @@ pool:
 
 steps:
 - powershell: |
+    gci env:* | sort-object name
     try {
       # Run npm install
       npm install
@@ -29,6 +30,8 @@ steps:
     }
     
   displayName: 'Run build'
+  env:
+    RP_API_KEY: $(RP_API_KEY)
 
 - powershell: |
     $QUALITY_GATE_STATUS = ""
