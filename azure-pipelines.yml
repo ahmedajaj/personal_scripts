@@ -13,6 +13,8 @@ steps:
     echo $LAUNCH_ID
     echo "##vso[task.setvariable variable=RP_LAUNCH_ID;]$LAUNCH_ID"
   displayName: 'Run build'
+  env:
+    RP_API_KEY: $(RP_API_KEY)
 
 - script: |
     QUALITY_GATE_STATUS=""
