@@ -1,5 +1,5 @@
 trigger:
-- main
+- dotnet
 
 pool:
   vmImage: windows-latest
