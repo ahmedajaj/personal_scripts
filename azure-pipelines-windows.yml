@@ -5,29 +5,28 @@ pool:
   vmImage: windows-latest
 
 steps:
-- task: PowerShell@2
+- powershell: |
+    # Run npm install
+    npm install
+      
+    # Run npm run test and save the output to console.log
+    npm run test | Tee-Object -FilePath ./console.log
+      
+    # Use Select-String to extract the Launch ID from console.log using a regex
+    $LAUNCH_ID = (Get-Content -Path ./console.log | Select-String -Pattern '.*ReportPortal Launch Link: .*\/([0-9]+).*' | ForEach-Object { $_.Matches.Groups[1].Value })
+      
+    # Print the Launch ID
+    Write-Output $LAUNCH_ID
+      
+    # Set the variable RP_LAUNCH_ID for Azure DevOps
+    Write-Output "##vso[task.setvariable variable=RP_LAUNCH_ID;]$LAUNCH_ID"
   displayName: 'Run build'
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Run npm install
-      npm install
-      
-      # Run npm run test and save the output to console.log
-      npm run test | Tee-Object -FilePath ./console.log
-      
-      # Use Select-String to extract the Launch ID from console.log using a regex
-      $LAUNCH_ID = (Get-Content -Path ./console.log | Select-String -Pattern '.*ReportPortal Launch Link: .*\/([0-9]+).*' | ForEach-Object { $_.Matches.Groups[1].Value })
-      
-      # Print the Launch ID
-      Write-Output $LAUNCH_ID
-      
-      # Set the variable RP_LAUNCH_ID for Azure DevOps
-      Write-Output "##vso[task.setvariable variable=RP_LAUNCH_ID;]$LAUNCH_ID"
 
 - task: PowerShell@2
   condition: always()
   displayName: 'Quality gates'
+  env:
+    RP_API_KEY: $(RP_API_KEY)
   inputs:
     targetType: 'inline'
     script: |
