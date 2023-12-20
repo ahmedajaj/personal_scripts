@@ -2,133 +2,41 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>examples-java</artifactId>
-        <groupId>com.epam.reportportal</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.epam.reportportal.example</groupId>
-    <artifactId>example-testng-log4j</artifactId>
+    <groupId>com.epam.reportportal</groupId>
+    <artifactId>examples-java</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.encoding>${project.build.sourceEncoding}</maven.compiler.encoding>
+        <maven.resources.encoding>${project.build.sourceEncoding}</maven.resources.encoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
-        <aspectj.version>1.9.19</aspectj.version>
-        <selenium.version>4.8.1</selenium.version>
     </properties>
+
+    <modules>
+        <module>example-cucumber</module>
+        <module>example-cucumber2</module>
+        <module>example-cucumber4</module>
+        <module>example-cucumber6</module>
+        <module>example-cucumber6-testng</module>
+        <module>example-jbehave</module>
+        <module>example-testng-logback</module>
+        <module>example-testng-log4j</module>
+        <module>example-junit5</module>
+        <module>example-junit</module>
+        <module>example-testng-fork-execution</module>
+        <module>example-spock</module>
+    </modules>
 
     <dependencies>
         <dependency>
-            <groupId>com.epam.reportportal</groupId>
-            <artifactId>agent-java-testng</artifactId>
-            <version>5.3.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.epam.reportportal</groupId>
-            <artifactId>logger-java-log4j</artifactId>
-            <version>5.1.8</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>7.8.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.7</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.17.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>2.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.awaitility</groupId>
-            <artifactId>awaitility</artifactId>
-            <version>4.0.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ibm.icu</groupId>
-            <artifactId>icu4j</artifactId>
-            <version>67.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-api</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>5.4.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.10.1</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
-                <configuration>
-
-                    <!-- Uncomment it if you don't want your build to be failed in case of test errors -->
-                    <testFailureIgnore>true</testFailureIgnore>
-
-                    <!-- For nested steps only -->
-                    <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                    </argLine>
-
-                    <suiteXmlFiles>
-                        <xmlFile>suites/logging_tests.xml</xmlFile>
-                        <xmlFile>suites/nested_steps_tests.xml</xmlFile>
-                    </suiteXmlFiles>
-                    <!-- ADD working directory to get TestNG know we to find suite files -->
-                    <workingDirectory>./</workingDirectory>
-
-                    <properties>
-                        <property>
-                            <name>usedefaultlisteners</name>
-                            <value>false</value>
-                        </property>
-                    </properties>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>
