@@ -32,10 +32,10 @@ steps:
     targetType: 'inline'
     script: |
       $QUALITY_GATE_STATUS = ""
-      $START_TIME = (Get-Date).ToUnixTimeSeconds()
-      
+      $END_TIME = (Get-Date).AddSeconds($env:SCRIPT_TIMEOUT_SECONDS)
+     
       # Loop until quality gate status is obtained or timeout is reached
-      while (-not $QUALITY_GATE_STATUS -and ((Get-Date).ToUnixTimeSeconds() - $START_TIME) -lt $env:SCRIPT_TIMEOUT_SECONDS) {
+      while (-not $QUALITY_GATE_STATUS -and (Get-Date) -lt $END_TIME ) {
           Write-Host "Launch ID $env:RP_LAUNCH_ID. Waiting for quality gate status...."
           Start-Sleep -Seconds 10
       
