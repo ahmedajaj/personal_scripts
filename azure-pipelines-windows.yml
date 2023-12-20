@@ -25,6 +25,7 @@ steps:
         
       # Set the variable RP_LAUNCH_ID for Azure DevOps
       Write-Output "##vso[task.setvariable variable=RP_LAUNCH_ID;]$LAUNCH_ID"
+      exit 0
     }
     
   displayName: 'Run build'
