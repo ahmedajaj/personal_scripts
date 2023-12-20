@@ -25,30 +25,33 @@ steps:
       # Set the variable RP_LAUNCH_ID for Azure DevOps
       Write-Output "##vso[task.setvariable variable=RP_LAUNCH_ID;]$LAUNCH_ID"
 
-- script: |
-    $QUALITY_GATE_STATUS = ""
-    $START_TIME = (Get-Date).ToUnixTimeSeconds()
-    
-    # Loop until quality gate status is obtained or timeout is reached
-    while (-not $QUALITY_GATE_STATUS -and ((Get-Date).ToUnixTimeSeconds() - $START_TIME) -lt $env:SCRIPT_TIMEOUT_SECONDS) {
-        Write-Host "Launch ID $env:RP_LAUNCH_ID. Waiting for quality gate status...."
-        Start-Sleep -Seconds 10
-    
-        # Retrieve quality gate status using Invoke-RestMethod and ConvertFrom-Json
-        $response = Invoke-RestMethod -Uri "$env:RP_INSTANCE_URL/api/v1/$env:RP_PROJECT/launch/$env:RP_LAUNCH_ID" `
-                                       -Headers @{ Authorization = "Bearer $env:RP_API_KEY" } `
-                                       -Method Get -TimeoutSec $env:REQUEST_TIMEOUT_SECONDS
-        $QUALITY_GATE_STATUS = $response.metadata.qualityGate.status
-    }
-    
-    # Check quality gate status and take appropriate action
-    if ($QUALITY_GATE_STATUS -ne "PASSED") {
-        Write-Host "Quality gate status: $QUALITY_GATE_STATUS"
-        Write-Host "Failing the pipeline."
-        exit 1
-    } else {
-        Write-Host "Quality gate status: $QUALITY_GATE_STATUS"
-        Write-Host "Pipeline passed."
-    }
-
+- task: PowerShell@2
+  condition: always()
   displayName: 'Quality gates'
+  inputs:
+    targetType: 'inline'
+    script: |
+      $QUALITY_GATE_STATUS = ""
+      $START_TIME = (Get-Date).ToUnixTimeSeconds()
+      
+      # Loop until quality gate status is obtained or timeout is reached
+      while (-not $QUALITY_GATE_STATUS -and ((Get-Date).ToUnixTimeSeconds() - $START_TIME) -lt $env:SCRIPT_TIMEOUT_SECONDS) {
+          Write-Host "Launch ID $env:RP_LAUNCH_ID. Waiting for quality gate status...."
+          Start-Sleep -Seconds 10
+      
+          # Retrieve quality gate status using Invoke-RestMethod and ConvertFrom-Json
+          $response = Invoke-RestMethod -Uri "$env:RP_INSTANCE_URL/api/v1/$env:RP_PROJECT/launch/$env:RP_LAUNCH_ID" `
+                                         -Headers @{ Authorization = "Bearer $env:RP_API_KEY" } `
+                                         -Method Get -TimeoutSec $env:REQUEST_TIMEOUT_SECONDS
+          $QUALITY_GATE_STATUS = $response.metadata.qualityGate.status
+      }
+      
+      # Check quality gate status and take appropriate action
+      if ($QUALITY_GATE_STATUS -ne "PASSED") {
+          Write-Host "Quality gate status: $QUALITY_GATE_STATUS"
+          Write-Host "Failing the pipeline."
+          exit 1
+      } else {
+          Write-Host "Quality gate status: $QUALITY_GATE_STATUS"
+          Write-Host "Pipeline passed."
+      }
