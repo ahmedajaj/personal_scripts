@@ -14,13 +14,13 @@ steps:
     npm run test 2>&1 | Tee-Object -FilePath ./console.log
       
     # Use Select-String to extract the Launch ID from console.log using a regex
-    $LAUNCH_ID = (Get-Content -Path ./console.log | Select-String -Pattern '.*ReportPortal Launch Link: .*\/([0-9]+).*' | ForEach-Object { $_.Matches.Groups[1].Value })
+    #$LAUNCH_ID = (Get-Content -Path ./console.log | Select-String -Pattern '.*ReportPortal Launch Link: .*\/([0-9]+).*' | ForEach-Object { $_.Matches.Groups[1].Value })
       
     # Print the Launch ID
-    Write-Output $LAUNCH_ID
+    #Write-Output $LAUNCH_ID
       
     # Set the variable RP_LAUNCH_ID for Azure DevOps
-    Write-Output "##vso[task.setvariable variable=RP_LAUNCH_ID;]$LAUNCH_ID"
+    #Write-Output "##vso[task.setvariable variable=RP_LAUNCH_ID;]$LAUNCH_ID"
   displayName: 'Run build'
 
 - powershell: |
