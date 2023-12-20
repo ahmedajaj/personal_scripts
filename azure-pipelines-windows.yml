@@ -48,7 +48,6 @@ steps:
         Write-Host "Quality gate status: $QUALITY_GATE_STATUS"
         Write-Host "Pipeline passed."
     }
-  condition: always()
   displayName: 'Quality gates'
   env:
     RP_API_KEY: $(RP_API_KEY)
