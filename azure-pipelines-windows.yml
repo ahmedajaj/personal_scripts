@@ -6,7 +6,6 @@ pool:
 
 steps:
 - powershell: |
-    gci env:* | sort-object name
     try {
       # Run npm install
       npm install
