@@ -6,7 +6,7 @@ module.exports = {
         [
             '@reportportal/agent-js-jest',
             {
-                apiKey: 'test_ItXmlO8dRgumPId4TrZtErS-S9GGuqG2iaPbBJCYwFXuknG_ESQujEHa5dq-utDV',
+                apiKey: 'hidden',
                 endpoint: 'https://reportportal.epam.com/api/v1',
                 launch: 'JS Jest run',
                 project: 'AHMED_AZHAZH_PERSONAL',
