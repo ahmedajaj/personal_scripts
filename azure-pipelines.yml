@@ -1,12 +1,11 @@
 trigger:
-- js
+- main
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
 - script: |
-    printenv
     npm install
     npm run test | tee ./console.log
     LAUNCH_ID=$(sed -nE 's/.*ReportPortal Launch Link: .*\/([0-9]+).*/\1/p' console.log)
@@ -37,3 +36,5 @@ steps:
     fi
 
   displayName: 'Quality gates'
+  env:
+    RP_API_KEY: $(RP_API_KEY)
